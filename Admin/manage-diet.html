@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optimal Nutrition for Gym Performance</title>
+  <style>
+   /* General styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  /* Header styles */
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 2rem;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  nav ul li {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+  
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    background-color: #555;
+  }
+  
+  /* Main content */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  section {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+  }
+  
+  /* Images */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Form styles */
+  form {
+    margin-bottom: 1rem;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  select, button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  button {
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+  /* Footer styles */
+  footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    clear: both;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 1.5rem;
+    }
+  
+    nav ul li {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+  
+    nav ul li a {
+      display: block;
+      padding: 0.5rem;
+    }
+  
+    main {
+      padding: 1rem;
+    }
+  
+    section {
+      padding: 1.5rem;
+    }
+  
+    img {
+      margin: 1rem 0;
+    }
+  }
+  
+  
+ 
+  </style>
+  <script>
+    // Function to calculate caloric intake based on activity level and goal
+function calculateCalories() {
+    const activityLevel = document.getElementById('activity-level').value;
+    const goal = document.getElementById('goal').value;
+  
+    // Example calculation (replace with actual formula as per your requirement)
+    let caloriesNeeded = 0;
+    if (activityLevel === 'sedentary') {
+      caloriesNeeded = 2000; // Example sedentary caloric intake
+    } else if (activityLevel === 'moderate') {
+      caloriesNeeded = 2500; // Example moderate activity caloric intake
+    } else if (activityLevel === 'active') {
+      caloriesNeeded = 3000; // Example active caloric intake
+    }
+  
+    // Adjust calories based on goal (muscle gain, fat loss, maintenance)
+    if (goal === 'muscle-gain') {
+      caloriesNeeded += 500; // Example additional calories for muscle gain
+    } else if (goal === 'fat-loss') {
+      caloriesNeeded -= 500; // Example reduced calories for fat loss
+    }
+  
+    // Display result
+    const calorieResultElement = document.getElementById('calorie-result');
+    calorieResultElement.innerHTML = `<p>Your estimated daily caloric intake: ${caloriesNeeded} calories.</p>`;
+  }
+  
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Optimal Nutrition for Gym Performance</h1>
+    <nav>
+      <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#requirements">Nutritional Requirements</a></li>
+        <li><a href="#nutrients">Key Nutrients</a></li>
+        <li><a href="#meal-planning">Meal Planning</a></li>
+        <li><a href="#hydration">Hydration & Supplements</a></li>
+        <li><a href="#snacks">Healthy Snacking</a></li>
+        <li><a href="#tips">Practical Tips</a></li>
+        <li><a href="#resources">Resources</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="introduction">
+      <h2>Introduction to Nutrition and Fitness</h2>
+      <p>Importance of nutrition in achieving fitness goals...</p>
+      <img src="https://images.pexels.com/photos/4397841/pexels-photo-4397841.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Introduction to Nutrition">
+    </section>
+
+    <section id="requirements">
+      <h2>Nutritional Requirements for Gym-Goers</h2>
+      <form id="calorie-form">
+        <label for="activity-level">Activity Level:</label>
+        <select id="activity-level">
+          <option value="sedentary">Sedentary</option>
+          <option value="moderate">Moderate (exercise 3-4 times a week)</option>
+          <option value="active">Active (exercise more than 4 times a week)</option>
+        </select>
+
+        <label for="goal">Fitness Goal:</label>
+        <select id="goal">
+          <option value="muscle-gain">Muscle Gain</option>
+          <option value="fat-loss">Fat Loss</option>
+          <option value="maintenance">Maintenance</option>
+        </select>
+
+        <button type="button" onclick="calculateCalories()">Calculate</button>
+      </form>
+
+      <div id="calorie-result">
+      </div>
+    </section>
+
+    <section id="nutrients">
+      <h2>Key Nutrients for Gym Performance</h2>
+      <div class="nutrient">
+        <h3>Protein</h3>
+        <p>Sources, recommended intake, timing...</p>
+        <img src="https://images.pexels.com/photos/4552980/pexels-photo-4552980.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Protein Sources">
+      </div>
+      
+      <div class="nutrient">
+        <h3>Carbohydrates</h3>
+        <p>Types (complex vs. simple), role in energy provision...</p>
+        <img src="https://images.pexels.com/photos/4725663/pexels-photo-4725663.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Carbohydrates Sources">
+      </div>
+      
+      <div class="nutrient">
+        <h3>Fats</h3>
+        <p>Healthy sources, importance in hormone regulation...</p>
+        <img src="https://images.pexels.com/photos/6660071/pexels-photo-6660071.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Healthy Fats Sources">
+      </div>
+    </section>
+
+    <section id="meal-planning">
+      <h2>Meal Planning and Timing</h2>
+      <p>Pre-workout nutrition, post-workout nutrition...</p>
+      <div class="meal">
+        <h3>Pre-Workout Meal</h3>
+        <p>What to eat before a workout for energy and performance...</p>
+        <img src="https://cdn.pixabay.com/photo/2024/04/23/09/24/ai-generated-8714494_640.jpg" alt="Pre-Workout Meal">
+      </div>
+      
+      <div class="meal">
+        <h3>Post-Workout Meal</h3>
+        <p>Importance of recovery meals, protein-carbohydrate balance...</p>
+        <img src="https://cdn.pixabay.com/photo/2018/02/21/21/30/food-3171570_640.jpg" alt="Post-Workout Meal">
+      </div>
+    </section>
+
+    <section id="hydration">
+      <h2>Hydration and Supplements</h2>
+      <p>Importance of hydration for gym-goers...</p>
+      <img src="https://cdn.pixabay.com/photo/2016/08/31/07/28/water-1632785_640.jpg" alt="Hydration">
+    </section>
+
+    <section id="snacks">
+      <h2>Healthy Snacking Options</h2>
+      <p>Nutrient-dense snacks to fuel workouts...</p>
+      <div class="snack">
+        <h3>Fruit and Yogurt Bowl</h3>
+        <p>High-protein, low-fat snack...</p>
+        <img src="https://cdn.pixabay.com/photo/2018/03/10/16/31/cereal-3214411_640.jpg" alt="Fruit and Yogurt Bowl">
+      </div>
+      
+      <div class="snack">
+        <h3>Avocado Toast</h3>
+        <p>Healthy fats and carbohydrates...</p>
+        <img src="https://cdn.pixabay.com/photo/2022/02/12/21/22/toast-7009956_640.jpg" alt="Avocado Toast">
+      </div>
+    </section>
+
+    <section id="tips">
+      <h2>Practical Tips and Strategies</h2>
+      <p>Grocery shopping tips, handling social situations...</p>
+      <img src="https://th.bing.com/th/id/R.742d70b9e76befe796cad558bd324a5c?rik=GKSGTQHGhQHh3g&riu=http%3a%2f%2fwalkingoffpounds.com%2fwp-content%2fuploads%2f2018%2f01%2fWLT-99-Have-a-grocery-shopping-strategy.png&ehk=J0ia4Vn4MEpEvKY5Xz8%2b1kxc8TB2PSCHriH8qcdXW5k%3d&risl=&pid=ImgRaw&r=0" alt="Practical Tips">
+    </section>
+
+    <section id="resources">
+      <h2>Resources and Further Reading</h2>
+      <p>Recommended books, websites, and apps...</p>
+      <img src="https://th.bing.com/th/id/OIP.M7-e8O6jlRBqCfuprOyvgQAAAA?w=186&h=260&c=7&r=0&o=5&pid=1.7" alt="Resources">
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Optimal Nutrition for Gym Performance. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

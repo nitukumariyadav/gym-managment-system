@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYM Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url(https://cdn.pixabay.com/photo/2016/11/22/22/24/adult-1850925_1280.jpg);
+            background-size: cover;
+            background-position: center;
+            line-height: 1.6;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        header h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+        }
+        header h1 img {
+            width: 50px; 
+            height: auto;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a i {
+            margin-right: 5px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            background: rgba(13, 13, 14, 0.8);
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>
+                <img src="https://media.istockphoto.com/id/1362037458/photo/3d-barbell-gym.jpg?s=612x612&w=0&k=20&c=QyM40aEy6PsyRl7pfoPcOZiEw_dn1jqZXpkrDg-HS3M=" alt="Gym Logo">
+                GYM Management System</h1>
+            <nav>
+                <ul>
+                    <li><a href="/Admin/login.html"><i class="fas fa-user-shield"></i> Admin Login</a></li>
+                    <li><a href="/Member/login.html"><i class="fas fa-users"></i> Member Login</a></li>
+                    <li><a href="/User/login.html"><i class="fas fa-user"></i> User Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Welcome to GYM Management System</h2>
+            <p>Manage your gym operations efficiently with our comprehensive system.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 GYM Management System. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

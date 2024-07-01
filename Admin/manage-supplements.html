@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Supplement Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        nav ul li {
+            margin: 0 1rem;
+        }
+        
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a i {
+            margin-right: 0.5rem;
+        }
+        
+        #slideactive {
+            position: relative;
+            max-width: 100%;
+            margin: 2rem auto;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            height: 400px; 
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: #fff;        }
+        
+       
+        
+        .slide.active {
+            display: block;
+        }
+        .slide-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        }
+        .slide-text {
+            max-width: 60%;
+        }
+        
+        .slide h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .slide p {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .slide button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .slide button:hover {
+            background-color: #555;
+        }
+        section {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .product {
+            display: inline-block;
+            margin: 1rem;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 250px;
+        }
+        
+        .product img {
+            width: 100px;
+            height: auto;
+        }
+        
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        button:hover {
+            background-color: #555;
+        }
+        
+        #cart-items {
+            margin: 2rem 0;
+        }
+        
+        .cart-item {
+            margin-bottom: 1rem;
+        }
+        
+        #checkout {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        #payment-form {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        #payment-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        #payment-form input {
+            width: calc(100% - 1rem);
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        
+        #payment-form button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        #payment-form button:hover {
+            background-color: #555;
+        }
+        
+        #payment-response {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gym Supplement Store</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#products"><i class="fas fa-shopping-basket"></i> Products</a></li>
+            <li><a href="#cart"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+        </ul>
+    </nav>
+
+    <div id="slideactive">
+        <div class="slide active">
+            <div class="slide-content" style="background-image: url('/public/img/OIP.jpg');">
+                <div class="slide-text">
+                    <h2>Product 1</h2>
+                    <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>Price: $19.99</p>
+                    <button onclick="buyNow('Product 1', 19.99, 1.0)"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content" style="background-image: url('/public/img/OIP (5).jpg');">
+                <div class="slide-text">
+                    <h2>Product 2</h2>
+                    <p>Description: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p>Price: $24.99</p>
+                    <button onclick="buyNow('Product 2', 24.99, 1.0)"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide-content" style="background-image: url('/public/img/protien bar.jpg');">
+                <div class="slide-text">
+                    <h2>Product 3</h2>
+                    <p>Description: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                    <p>Price: $19.99</p>
+                    <button onclick="buyNow('Product 3', 19.99, 1.0)"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <section id="products">
+        <h2>Our Products</h2>
+        <div class="product">
+            <img src="/public/img/OIP (3).jpg" alt="Protein Powder">
+            <h3>Protein Powders</h3>
+            <p>Used to support muscle repair and growth, commonly consumed post-workout. Price: $29.99</p>
+            <button onclick="addToCart('Protein Powders', 29.99)"> <i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="/public/img/pre.jpg" alt="Pre-Workout Supplements">
+            <h3>Pre-Workout Supplements</h3>
+            <p>Formulated to boost energy, focus, and performance during workouts. Price: $19.99</p>
+            <button onclick="addToCart('Pre-Workout Supplements', 19.99)"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="https://www.bing.com/th?id=OPAC.MoTSHJ1mfmSBqg474C474&o=5&pid=21.1&w=160&h=210&rs=1&qlt=100&dpr=1&c=8" alt="BCAAs">
+            <h3>Amino Acids</h3>
+            <p>Such as BCAAs (branched-chain amino acids) to support muscle recovery and reduce fatigue. Price: $24.99</p>
+            <button onclick="addToCart('Amino Acids', 24.99)"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="https://ww.bing.com/th?id=OPAC.k6I53gYIhGyDUQ474C474&w=346&h=346&o=5&pid=21.1" alt="Vitamins and Minerals">
+            <h3>Vitamins and Minerals</h3>
+            <p>Essential nutrients to support overall health and wellness. Price: $14.99</p>
+            <button onclick="addToCart('Vitamins and Minerals', 14.99)"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="https://www.bing.com/th?id=OIP.JZVKbJzlbQQjkpUT-pt4zQHaHa&w=154&h=150&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt="Creatine">
+            <h3>Creatine</h3>
+            <p>A popular supplement to enhance strength and muscle mass. Price: $19.99</p>
+            <button onclick="addToCart('Creatine', 19.99)"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="/public/img/protien bar.jpg" alt="Protein Bars">
+            <h3>Protein Bars</h3>
+            <p>Convenient source of protein and nutrients on-the-go. Price: $19.99</p>
+            <button onclick="addToCart('Protein Bars', 19.99)"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+    </section>
+
+    <section id="cart">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <div id="checkout">
+            <h3>Total: <span id="cart-total">$0.00</span></h3>
+            <button onclick="placeOrder()"><i class="fas fa-money-check-alt"></i> Place Order</button>
+        </div>
+    </section>
+
+    <section id="payment">
+        <h2>Payment Details</h2>
+        <form id="payment-form" onsubmit="return false;">
+            <label for="card-number">Card Number</label>
+            <input type="text" id="card-number" placeholder="1234 5678 9012 3456">
+
+            <label for="expiry-date">Expiry Date</label>
+            <input type="text" id="expiry-date" placeholder="MM/YY">
+
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" placeholder="123">
+
+            <button onclick="processPayment()">Pay Now</button>
+        </form>
+        <div id="payment-response"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Gym Supplement Store. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyARp-wODVF4B2mJiknaxTbEzRdpu1GlEPE",
+            authDomain: "gym-management-system-73e29.firebaseapp.com",
+            databaseURL: "https://gym-management-system-73e29-default-rtdb.firebaseio.com",
+            projectId: "gym-management-system-73e29",
+            storageBucket: "gym-management-system-73e29.appspot.com",
+            messagingSenderId: "1086634605316",
+            appId: "1:1086634605316:web:fa11ab381cf2004d412e51",
+            measurementId: "G-NH19JV2C99"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let slideIndex = 0;
+        let slideInterval;
+
+        function startSlideactive() {
+            slideInterval = setInterval(changeSlide, 3000);
+        }
+
+        function changeSlide() {
+            const slides = document.querySelectorAll('.slide');
+            slides[slideIndex].classList.remove('active');
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            startSlideactive();
+        });
+
+        function addToCart(product, price) {
+            db.collection('cartItems').add({
+                product: product,
+                price: price
+            })
+            .then(() => {
+                alert('Product added to cart successfully!');
+                updateCartDisplay();
+            })
+            .catch(error => {
+                console.error('Error adding product to cart: ', error);
+            });
+        }
+
+        function updateCartDisplay() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            let totalPrice = 0;
+
+            cartItemsContainer.innerHTML = '';
+
+            getDocs(collection(db, 'cartItems'))
+                .then(querySnapshot => {
+                    querySnapshot.forEach(doc => {
+                        const item = doc.data();
+                        const cartItem = document.createElement('div');
+                        cartItem.className = 'cart-item';
+                        cartItem.innerHTML = `
+                            <span>${item.product}</span>
+                            <span>$${item.price.toFixed(2)}</span>
+                            <button onclick="removeFromCart('${doc.id}')">Remove</button>
+                        `;
+                        cartItemsContainer.appendChild(cartItem);
+                        totalPrice += item.price;
+                    });
+
+                    cartTotal.textContent = `$${totalPrice.toFixed(2)}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching cart items: ', error);
+                });
+        }
+
+        function removeFromCart(docId) {
+            db.collection('cartItems').doc(docId).delete()
+                .then(() => {
+                    alert('Item removed from cart successfully!');
+                    updateCartDisplay();
+                })
+                .catch(error => {
+                    console.error('Error removing item from cart: ', error);
+                });
+        }
+
+        function placeOrder() {
+            alert('Order placed successfully!');
+
+            db.collection('cartItems').get()
+                .then(querySnapshot => {
+                    querySnapshot.forEach(doc => {
+                        db.collection('cartItems').doc(doc.id).delete();
+                    });
+                    updateCartDisplay();
+                })
+                .catch(error => {
+                    console.error('Error clearing cart items: ', error);
+                });
+        }
+
+        function processPayment() {
+            document.getElementById('payment-response').textContent = 'Payment processed successfully!';
+        }
+    </script>
+</body>
+</html>

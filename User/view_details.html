@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f0f0f0;
+  padding-top: 60px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  z-index: 1000;
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: #555;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.section {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.responsive-img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+form input, form select, form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+.service-item {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.service-img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-item p {
+  font-weight: bold;
+}
+
+.service-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .container {
+      grid-template-columns: 1fr;
+  }
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Gym</h1>
+        <nav>
+            <ul>
+                <li><a href="#facility-info">Facility Information</a></li>
+                <li><a href="#membership">Membership & Pricing</a></li>
+                <li><a href="#services">Services & Amenities</a></li>
+                <li><a href="#rules">Rules & Policies</a></li>
+                <li><a href="#features">Additional Features</a></li>
+                <li><a href="#community">Community & Culture</a></li>
+                <li><a href="#accessibility">Accessibility</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section id="facility-info" class="section">
+            <h2>Facility Information</h2>
+            <img src="https://cdn.pixabay.com/photo/2014/04/24/17/55/fitness-studio-331566_640.jpg" alt="Gym Facility" class="responsive-img">
+            <p>Location: 123 Fitness Ave, Gym City</p>
+            <p>Hours: Mon-Fri: 6am - 10pm, Sat-Sun: 8am - 8pm</p>
+            <p>Contact: (123) 456-7890 | email@gym.com</p>
+        </section>
+
+        <section id="membership" class="section">
+            <h2>Membership & Pricing</h2>
+            <ul>
+                <li>Monthly Plan: $50</li>
+                <li>Annual Plan: $500</li>
+                <li>Student Plan: $40/month</li>
+                <li>Family Plan: $90/month</li>
+            </ul>
+            <form id="membership-form" class="form">
+                <h3>Join Now</h3>
+                <input type="text" id="name" placeholder="Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <select id="plan">
+                    <option value="monthly">Monthly Plan</option>
+                    <option value="annual">Annual Plan</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section id="services" class="section">
+            <h2>Services & Amenities</h2>
+            <img src="https://cdn.pixabay.com/photo/2021/12/23/05/06/strength-6888635_640.jpg" alt="Services and Amenities" class="responsive-img">
+            <p>We offer a wide range of services including...</p>
+            <ul>
+                <li>Cardio Machines</li>
+                <li>Weights</li>
+                <li>Yoga Classes</li>
+                <li>Personal Training</li>
+                <li>Swimming Pool</li>
+            </ul>
+        </section>
+
+        <section id="rules" class="section">
+            <h2>Rules & Policies</h2>
+            <img src="/public/img/rules.jpg" alt="Rules and Policies" class="responsive-img">
+            <p>Please follow our gym etiquette and safety procedures...</p>
+        </section>
+
+        <section id="features" class="section">
+            <h2>Additional Features</h2>
+            <img src="/public/img/gym man.jpg" alt="Additional Features" class="responsive-img">
+            <p>Join our special programs and events...</p>
+        </section>
+
+        <section id="community" class="section">
+            <h2>Community & Culture</h2>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFJFZ0vqQYsyOkyPP8XEqQ2A7wZ1_0EL4H9g&s" alt="Community and Culture" class="responsive-img">
+            <p>Be part of our gym community. Check out member stories and upcoming events...</p>
+        </section>
+
+        <section id="accessibility" class="section">
+            <h2>Accessibility</h2>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLLgWcVpSAnVRf_PJwPo5AwtXw4o4ChVpxyw&s" alt="Accessibility" class="responsive-img">
+            <p>We are committed to providing an accessible environment for all members...</p>
+        </section>
+        <section id="services" class="section">
+          <h2>Services & Amenities</h2>
+          <div class="service-item">
+              <img src="https://cdn.pixabay.com/photo/2020/11/04/05/07/fitness-and-health-5711488_1280.jpg" alt="Cardio Machines" class="service-img">
+              <p>Cardio Machines</p>
+          </div>
+          <div class="service-item">
+              <img src="https://cdn.pixabay.com/photo/2017/01/09/11/30/dumbbell-1966247_640.jpg" alt="Weights" class="service-img">
+              <p>Weights</p>
+          </div>
+          <div class="service-item">
+              <img src="https://cdn.pixabay.com/photo/2021/10/19/11/35/yoga-6723315_640.jpg" alt="Yoga Classes" class="service-img">
+              <p>Yoga Classes</p>
+          </div>
+          <div class="service-item">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh_z3m0yvuAFvyP729XJhcwqjpqrLwzwE2TA&s" alt="Personal Training" class="service-img">
+              <p>Personal Training</p>
+          </div>
+          <div class="service-item">
+              <img src="https://cdn.pixabay.com/photo/2017/05/18/09/30/swimming-2323054_640.jpg" alt="Swimming Pool" class="service-img">
+              <p>Swimming Pool</p>
+          </div>
+      </section>
+      
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Gym. All rights reserved.</p>
+    </footer>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+  import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+      apiKey: "AIzaSyARp-wODVF4B2mJiknaxTbEzRdpu1GlEPE",
+      authDomain: "gym-management-system-73e29.firebaseapp.com",
+      databaseURL: "https://gym-management-system-73e29-default-rtdb.firebaseio.com",
+      projectId: "gym-management-system-73e29",
+      storageBucket: "gym-management-system-73e29.appspot.com",
+      messagingSenderId: "1086634605316",
+      appId: "1:1086634605316:web:fa11ab381cf2004d412e51",
+      measurementId: "G-NH19JV2C99"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+
+
+// Handling form submission
+document.getElementById('membership-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  var name = document.getElementById('name').value;
+  var email = document.getElementById('email').value;
+  var plan = document.getElementById('plan').value;
+
+  // Save the data to Firebase
+  var newMembershipRef = database.ref('memberships').push();
+  newMembershipRef.set({
+      name: name,
+      email: email,
+      plan: plan
+  }).then(() => {
+      alert('Membership submitted successfully!');
+  }).catch((error) => {
+      console.error('Error submitting membership:', error);
+      alert('Error submitting membership. Please try again.');
+  });
+});
+
+</script>
+</body>
+</html>

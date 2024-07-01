@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Bill - GYM Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .container h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .form-group input, .form-group select, .form-group button {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        .form-group input[type="number"]::-webkit-outer-spin-button,
+        .form-group input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .form-group .add-item {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-group .add-item:hover {
+            background-color: #218838;
+        }
+        .form-group button.submit-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-group button.submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            text-align: top;
+        }
+        .back-link a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        .item-list {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .item-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .item-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .item-list li span {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-link">
+        <a href="index.html"><i class="fas fa-chevron-left"></i></a>
+    </div>
+    <div class="container">
+        <h1>Create Bill</h1>
+        <form id="createBillForm">
+            <div class="form-group">
+                <label for="memberName">Member</label>
+                <select id="memberName" name="memberName" required></select>
+            </div>
+            <div class="form-group">
+                <label for="billingStartDate">Billing Start Date</label>
+                <input type="date" id="billingStartDate" name="billingStartDate" required>
+            </div>
+            <div class="form-group">
+                <label for="billingEndDate">Billing End Date</label>
+                <input type="date" id="billingEndDate" name="billingEndDate" required>
+            </div>
+            <div class="form-group">
+                <label for="itemDescription">Item Description</label>
+                <input type="text" id="itemDescription" placeholder="Enter item description">
+            </div>
+            <div class="form-group">
+                <label for="itemAmount">Item Amount ($)</label>
+                <input type="number" id="itemAmount" placeholder="Enter item amount" min="0" step="0.01">
+            </div>
+            <div class="form-group">
+                <button type="button" class="add-item">Add Item</button>
+            </div>
+            <div class="item-list">
+                <ul id="itemsList"></ul>
+                <strong>Total Amount: $<span id="totalAmount">0.00</span></strong>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="submit-btn"><i class="fas fa-file-invoice-dollar fa-fw"></i> Create Bill</button>
+            </div>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyARp-wODVF4B2mJiknaxTbEzRdpu1GlEPE",
+            authDomain: "gym-management-system-73e29.firebaseapp.com",
+            databaseURL: "https://gym-management-system-73e29-default-rtdb.firebaseio.com",
+            projectId: "gym-management-system-73e29",
+            storageBucket: "gym-management-system-73e29.appspot.com",
+            messagingSenderId: "1086634605316",
+            appId: "1:1086634605316:web:fa11ab381cf2004d412e51",
+            measurementId: "G-NH19JV2C99"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const fetchMembers = async () => {
+            const membersRef = collection(db, "members");
+            const snapshot = await getDocs(membersRef);
+            return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        };
+
+        const populateMembers = async () => {
+            const members = await fetchMembers();
+            const memberSelect = document.getElementById("memberName");
+            members.forEach(member => {
+                const option = document.createElement("option");
+                option.value = member.name;
+                option.textContent = member.name;
+                memberSelect.appendChild(option);
+            });
+        };
+
+        const createBill = async (memberName, billingStartDate, billingEndDate, items, totalAmount) => {
+            try {
+                await addDoc(collection(db, "bills"), {
+                    memberName,
+                    billingStartDate,
+                    billingEndDate,
+                    items,
+                    totalAmount: parseFloat(totalAmount).toFixed(2),
+                    createdAt: serverTimestamp()
+                });
+                window.location.href = '/Member/view-bill-notification.html?message=Bill%20created%20successfully!';
+            } catch (error) {
+                console.error("Error creating bill: ", error);
+                alert("Failed to create bill. Please try again.");
+            }
+        };
+
+        const updateTotalAmount = () => {
+            const itemsList = document.getElementById("itemsList");
+            const items = itemsList.querySelectorAll("li");
+            let total = 0;
+            items.forEach(item => {
+                const amount = parseFloat(item.querySelector(".item-amount").textContent);
+                total += amount;
+            });
+            document.getElementById("totalAmount").textContent = total.toFixed(2);
+        };
+
+        document.querySelector(".add-item").addEventListener("click", () => {
+            const itemDescription = document.getElementById("itemDescription").value;
+            const itemAmount = document.getElementById("itemAmount").value;
+
+            if (itemDescription && itemAmount) {
+                const itemList = document.getElementById("itemsList");
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <span class="item-description">${itemDescription}</span> - $<span class="item-amount">${parseFloat(itemAmount).toFixed(2)}</span>
+                    <button type="button" class="remove-item"><i class="fas fa-trash-alt"></i></button>
+                `;
+                li.querySelector(".remove-item").addEventListener("click", () => {
+                    li.remove();
+                    updateTotalAmount();
+                });
+                itemList.appendChild(li);
+
+                document.getElementById("itemDescription").value = "";
+                document.getElementById("itemAmount").value = "";
+                updateTotalAmount();
+            } else {
+                alert("Please enter both item description and amount.");
+            }
+        });
+
+        document.getElementById("createBillForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const memberName = document.getElementById("memberName").value;
+            const billingStartDate = document.getElementById("billingStartDate").value;
+            const billingEndDate = document.getElementById("billingEndDate").value;
+            const items = Array.from(document.getElementById("itemsList").querySelectorAll("li")).map(item => ({
+                description: item.querySelector(".item-description").textContent,
+                amount: parseFloat(item.querySelector(".item-amount").textContent)
+            }));
+            const totalAmount = document.getElementById("totalAmount").textContent;
+            createBill(memberName, billingStartDate, billingEndDate, items, totalAmount);
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            populateMembers();
+        });
+    </script>
+</body>
+</html>

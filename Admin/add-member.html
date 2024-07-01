@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Member - GYM Management System</title>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="tel"],
+        .form-container input[type="date"],
+        .form-container select,
+        .form-container textarea,
+        .form-container input[type="number"],
+        .form-container input[type="file"] {
+            padding: 10px;
+            width: calc(100% - 40px); /* Adjusted for icon */
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding-left: 40px; /* Adjusted for icon */
+            transition: border-color 0.3s, box-shadow 0.3s;
+            margin-bottom: 10px;
+        }
+        
+        .form-container select {
+            appearance: none; /* Remove default arrow in select */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        
+        .form-container textarea {
+            padding: 10px;
+            width: calc(100% - 40px); /* Adjusted for icon */
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding-left: 40px; /* Adjusted for icon */
+            transition: border-color 0.3s, box-shadow 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .form-container .input-container {
+            position: relative;
+        }
+
+        .form-container .input-container i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ccc;
+        }
+
+        .form-container button {
+            padding: 10px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+        }
+
+        .back-link a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #ff0000;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1><i class="fas fa-user-plus fa-fw"></i> Add Member</h1>
+        <form id="addMemberForm">
+            <div class="input-container">
+                <i class="fas fa-user fa"></i>
+                <input type="text" id="memberName" placeholder="Full Name" required>
+                <div class="error-message" id="errorMemberName"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-envelope fa"></i>
+                <input type="email" id="memberEmail" placeholder="Email" required>
+                <div class="error-message" id="errorMemberEmail"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-calendar-alt fa"></i>
+                <input type="date" id="memberDOB" required>
+                <div class="error-message" id="errorMemberDOB"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-phone fa"></i>
+                <input type="tel" id="memberPhone" placeholder="Phone Number" required>
+                <div class="error-message" id="errorMemberPhone"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-venus-mars fa"></i>
+                <select id="memberGender" required>
+                    <option value="" disabled selected>Choose Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <div class="error-message" id="errorMemberGender"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-calendar-check fa"></i>
+                <input type="date" id="membershipStartDate" required>
+                <div class="error-message" id="errorMembershipStartDate"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-calendar-times fa"></i>
+                <input type="date" id="membershipExpiryDate" required>
+                <div class="error-message" id="errorMembershipExpiryDate"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-info-circle fa"></i>
+                <select id="membershipType" required>
+                    <option value="" disabled selected>Choose Membership Type</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="quarterly">Quarterly</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+                <div class="error-message" id="errorMembershipType"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-notes-medical fa"></i>
+                <textarea id="medicalHistory" placeholder="Medical History"></textarea>
+                <div class="error-message" id="errorMedicalHistory"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-heartbeat fa"></i>
+                <textarea id="currentHealthConditions" placeholder="Current Health Conditions"></textarea>
+                <div class="error-message" id="errorCurrentHealthConditions"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-money-bill-wave fa"></i>
+                <input type="number" id="initialPayment" placeholder="Initial Payment" required>
+                <div class="error-message" id="errorInitialPayment"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-credit-card fa"></i>
+                <select id="paymentMethod" required>
+                    <option value="" disabled selected>Choose Payment Method</option>
+                    <option value="cash">Cash</option>
+                    <option value="card">Card</option>
+                    <option value="online">Online</option>
+                </select>
+                <div class="error-message" id="errorPaymentMethod"></div>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-camera fa"></i>
+                <input type="file" id="memberPhoto" accept="image/*" required>
+                <div class="error-message" id="errorMemberPhoto"></div>
+            </div>
+            <button type="submit"><i class="fas fa-user-plus fa-fw"></i> Add Member</button>
+        </form>
+        <div class="back-link">
+            <a href="index.html"><i class="fas fa-chevron-left"></i> Back</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyARp-wODVF4B2mJiknaxTbEzRdpu1GlEPE",
+            authDomain: "gym-management-system-73e29.firebaseapp.com",
+            databaseURL: "https://gym-management-system-73e29-default-rtdb.firebaseio.com",
+            projectId: "gym-management-system-73e29",
+            storageBucket: "gym-management-system-73e29.appspot.com",
+            messagingSenderId: "1086634605316",
+            appId: "1:1086634605316:web:fa11ab381cf2004d412e51",
+            measurementId: "G-NH19JV2C99"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        const addMember = async (name, email, dob, phone, gender, membershipStartDate, membershipExpiryDate, membershipType, medicalHistory, currentHealthConditions, initialPayment, paymentMethod, photo) => {
+            try {
+                // Upload photo
+                const storageRef = ref(storage, `photos/${photo.name}`);
+                const snapshot = await uploadBytes(storageRef, photo);
+                const photoURL = await getDownloadURL(snapshot.ref);
+
+                // Add member data to Firestore
+                const docRef = await addDoc(collection(db, "members"), {
+                    name: name,
+                    email: email,
+                    dob: dob,
+                    phone: phone,
+                    gender: gender,
+                    membershipStartDate: membershipStartDate,
+                    membershipExpiryDate: membershipExpiryDate,
+                    membershipType: membershipType,
+                    medicalHistory: medicalHistory,
+                    currentHealthConditions: currentHealthConditions,
+                    initialPayment: initialPayment,
+                    paymentMethod: paymentMethod,
+                    photoURL: photoURL
+                });
+
+                clearForm(); // Clear form fields after successful submission
+                console.log("Member added with ID: ", docRef.id);
+                alert("Member added successfully!");
+            } catch (e) {
+                console.error("Error adding member: ", e);
+                alert("Failed to add member. Please try again.");
+            }
+        };
+
+        const clearForm = () => {
+            // Function to clear form fields after successful submission
+            document.getElementById("addMemberForm").reset();
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const addMemberForm = document.getElementById("addMemberForm");
+
+            addMemberForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                // Validate form inputs before submission
+                if (validateForm()) {
+                    const name = document.getElementById("memberName").value;
+                    const email = document.getElementById("memberEmail").value;
+                    const dob = document.getElementById("memberDOB").value;
+                    const phone = document.getElementById("memberPhone").value;
+                    const gender = document.getElementById("memberGender").value;
+                    const membershipStartDate = document.getElementById("membershipStartDate").value;
+                    const membershipExpiryDate = document.getElementById("membershipExpiryDate").value;
+                    const membershipType = document.getElementById("membershipType").value;
+                    const medicalHistory = document.getElementById("medicalHistory").value;
+                    const currentHealthConditions = document.getElementById("currentHealthConditions").value;
+                    const initialPayment = document.getElementById("initialPayment").value;
+                    const paymentMethod = document.getElementById("paymentMethod").value;
+                    const photo = document.getElementById("memberPhoto").files[0];
+
+                    await addMember(name, email, dob, phone, gender, membershipStartDate, membershipExpiryDate, membershipType, medicalHistory, currentHealthConditions, initialPayment, paymentMethod, photo);
+                }
+            });
+        });
+
+        const validateForm = () => {
+            let isValid = true;
+
+            // Reset all error messages
+            const errorElements = document.getElementsByClassName("error-message");
+            for (let i = 0; i < errorElements.length; i++) {
+                errorElements[i].textContent = "";
+            }
+
+            // Validate each input field
+            if (!document.getElementById("memberName").value) {
+                document.getElementById("errorMemberName").textContent = "Please enter a name";
+                isValid = false;
+            }
+            if (!document.getElementById("memberEmail").value || !isValidEmail(document.getElementById("memberEmail").value)) {
+                document.getElementById("errorMemberEmail").textContent = "Please enter a valid email";
+                isValid = false;
+            }
+            if (!document.getElementById("memberDOB").value) {
+                document.getElementById("errorMemberDOB").textContent = "Please select a date of birth";
+                isValid = false;
+            }
+            if (!document.getElementById("memberPhone").value || !isValidPhoneNumber(document.getElementById("memberPhone").value)) {
+                document.getElementById("errorMemberPhone").textContent = "Please enter a valid phone number";
+                isValid = false;
+            }
+            if (document.getElementById("memberGender").value === "") {
+                document.getElementById("errorMemberGender").textContent = "Please select a gender";
+                isValid = false;
+            }
+            if (!document.getElementById("membershipStartDate").value) {
+                document.getElementById("errorMembershipStartDate").textContent = "Please select a membership start date";
+                isValid = false;
+            }
+            if (!document.getElementById("membershipExpiryDate").value) {
+                document.getElementById("errorMembershipExpiryDate").textContent = "Please select a membership expiry date";
+                isValid = false;
+            }
+            if (document.getElementById("membershipType").value === "") {
+                document.getElementById("errorMembershipType").textContent = "Please select a membership type";
+                isValid = false;
+            }
+            if (!document.getElementById("initialPayment").value || isNaN(document.getElementById("initialPayment").value) || parseFloat(document.getElementById("initialPayment").value) <= 0) {
+                document.getElementById("errorInitialPayment").textContent = "Please enter a valid initial payment amount";
+                isValid = false;
+            }
+            if (document.getElementById("paymentMethod").value === "") {
+                document.getElementById("errorPaymentMethod").textContent = "Please select a payment method";
+                isValid = false;
+            }
+            if (!document.getElementById("memberPhoto").files[0]) {
+                document.getElementById("errorMemberPhoto").textContent = "Please upload a member photo";
+                isValid = false;
+            }
+
+            return isValid;
+        };
+
+        const isValidEmail = (email) => {
+            // Simple email validation using regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        };
+
+        const isValidPhoneNumber = (phone) => {
+            // Simple phone number validation using regex
+            const phoneRegex = /^\d{10}$/; // Modify as per your phone number format
+            return phoneRegex.test(phone);
+        };
+    </script>
+</body>
+</html>

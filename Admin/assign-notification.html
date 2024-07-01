@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Monthly Notification - GYM Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-group select, .form-group input[type="text"], .form-group textarea, .form-group button {
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            position: fixed;
+            top: 10px; 
+            left: 10px; 
+            text-align: top;
+        }
+        
+        
+
+        .back-link a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-link">
+        <a href="index.html"><i class="fas fa-chevron-left"></i></a>
+    </div>
+    <div class="container">
+        <h1>Assign Monthly Notification</h1>
+
+        <form id="assignNotificationForm">
+            <div class="form-group">
+                <label for="memberSelect">Select Member:</label>
+                <select id="memberSelect" required>
+                    <option value="">Select Member</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="notificationMessage">Notification Message:</label>
+                <textarea id="notificationMessage" placeholder="Enter notification message" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="notificationMethod">Notification Method:</label>
+                <select id="notificationMethod" required>
+                    <option value="email">Email</option>
+                    <option value="sms">SMS</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="notificationSchedule">Notification Schedule:</label>
+                <input type="number" id="notificationSchedule" min="1" placeholder="Days before due date" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit"><i class="fas fa-bell"></i> Assign Notification</button>
+            </div>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyARp-wODVF4B2mJiknaxTbEzRdpu1GlEPE",
+            authDomain: "gym-management-system-73e29.firebaseapp.com",
+            databaseURL: "https://gym-management-system-73e29-default-rtdb.firebaseio.com",
+            projectId: "gym-management-system-73e29",
+            storageBucket: "gym-management-system-73e29.appspot.com",
+            messagingSenderId: "1086634605316",
+            appId: "1:1086634605316:web:fa11ab381cf2004d412e51",
+            measurementId: "G-NH19JV2C99"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const membersCollection = collection(db, "members");
+
+        const fetchMembers = async () => {
+            const querySnapshot = await getDocs(membersCollection);
+            let optionsHtml = '<option value="">Select Member</option>';
+            querySnapshot.forEach(doc => {
+                const memberData = doc.data();
+                optionsHtml += `<option value="${doc.id}">${memberData.name}</option>`;
+            });
+            document.getElementById("memberSelect").innerHTML = optionsHtml;
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchMembers();
+
+            const assignNotificationForm = document.getElementById("assignNotificationForm");
+            assignNotificationForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const memberId = document.getElementById("memberSelect").value;
+                const notificationMessage = document.getElementById("notificationMessage").value.trim();
+                const notificationMethod = document.getElementById("notificationMethod").value;
+                const notificationSchedule = parseInt(document.getElementById("notificationSchedule").value);
+
+                if (!memberId || !notificationMessage || !notificationMethod || !notificationSchedule) {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+
+                try {
+                    const memberDocRef = doc(membersCollection, memberId);
+                    await updateDoc(memberDocRef, {
+                        monthlyNotification: {
+                            message: notificationMessage,
+                            method: notificationMethod,
+                            schedule: notificationSchedule
+                        }
+                    });
+
+                    alert("Monthly notification assigned successfully!");
+                    assignNotificationForm.reset();
+                } catch (error) {
+                    console.error("Error assigning notification:", error);
+                    alert("Failed to assign monthly notification. Please try again.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

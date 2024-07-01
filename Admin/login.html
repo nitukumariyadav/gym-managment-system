@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - GYM Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url(https://cdn.pixabay.com/photo/2015/07/02/10/27/training-828764_1280.jpg); 
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        h1 {
+            color: whitesmoke;
+            text-align: center;
+        }
+
+        .login-container {
+            background-color: rgba(32, 32, 32, 0.9); 
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-container input {
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding-left: 30px; 
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .login-container button {
+            padding: 10px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .fa {
+            position: absolute;
+            margin-top: 15px; 
+            margin-left: 10px;
+            color: #ccc;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .back-link a i {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-link">
+        <a href="/index.html"><i class="fas fa-chevron-left"></i></a>
+    </div>
+
+    <div class="login-container">
+        <h1><i class="fas fa-user fa-fw"></i> Admin Login</h1>
+        <form id="loginForm">
+            <div style="position: relative;">
+                <input type="email" id="adminEmail" placeholder="Email" required>
+                <i class="fas fa-envelope fa"></i>
+            </div>
+            <div style="position: relative;">
+                <input type="password" id="adminPassword" placeholder="Password" required>
+                <i class="fas fa-lock fa"></i>
+            </div>
+            <button type="submit"><i class="fas fa-sign-in-alt fa-fw"></i> Login</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyARp-wODVF4B2mJiknaxTbEzRdpu1GlEPE",
+            authDomain: "gym-management-system-73e29.firebaseapp.com",
+            databaseURL: "https://gym-management-system-73e29-default-rtdb.firebaseio.com",
+            projectId: "gym-management-system-73e29",
+            storageBucket: "gym-management-system-73e29.appspot.com",
+            messagingSenderId: "1086634605316",
+            appId: "1:1086634605316:web:fa11ab381cf2004d412e51",
+            measurementId: "G-NH19JV2C99"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const logLoginAttempt = async (email, status, errorMessage = "") => {
+            try {
+                await addDoc(collection(db, 'loginAttempts'), {
+                    email,
+                    status,
+                    errorMessage,
+                    timestamp: new Date()
+                });
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginForm = document.getElementById("loginForm");
+            const hardcodedEmail = "admin@example.com";
+            const hardcodedPassword = "admin123";
+
+            loginForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const email = document.getElementById("adminEmail").value;
+                const password = document.getElementById("adminPassword").value;
+
+                if (!email || !password) {
+                    alert("Please fill in both fields.");
+                    return;
+                }
+
+                try {
+                    if (email === hardcodedEmail && password === hardcodedPassword) {
+                        alert("Admin logged in successfully");
+                        await logLoginAttempt(email, 'success');
+                        window.location.href = "index.html"; 
+                    } else {
+                        throw new Error("Invalid credentials");
+                    }
+                } catch (error) {
+                    console.error("Login error:", error);
+                    alert("Login failed: " + error.message);
+                    await logLoginAttempt(email, 'failure', error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

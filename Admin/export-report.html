@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Report - GYM Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .container h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .record-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .record-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .record-item p {
+            margin-bottom: 5px;
+        }
+
+        .record-item p:last-child {
+            margin-bottom: 0;
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .export-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 10px; 
+            left: 10px; 
+            text-align: top; 
+        }
+
+        .back-link a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .report-select {
+            margin: 20px 0;
+        }
+
+        .report-select select {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-link">
+        <a href="index.html"><i class="fas fa-chevron-left"></i> Back</a>
+    </div>
+    <div class="container">
+        <h1>Export Report</h1>
+        <div class="report-select">
+            <select id="reportType">
+                <option value="active_members">Active Members</option>
+                <option value="membership_renewal">Membership Renewal Rates</option>
+                <option value="new_signups_cancellations">New Sign-ups and Cancellations</option>
+                <option value="attendance">Attendance Reports</option>
+                <option value="financial">Financial Reports</option>
+                <option value="sales">Sales Reports</option>
+                <option value="employee">Employee Reports</option>
+                <option value="equipment_facility">Equipment and Facility Reports</option>
+                <option value="customer_feedback">Customer Feedback Reports</option>
+            </select>
+        </div>
+        <div class="record-list" id="recordList">
+        </div>
+        <button class="export-btn" id="exportBtn"><i class="fas fa-file-export"></i> Export CSV Report</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyARp-wODVF4B2mJiknaxTbEzRdpu1GlEPE",
+            authDomain: "gym-management-system-73e29.firebaseapp.com",
+            databaseURL: "https://gym-management-system-73e29-default-rtdb.firebaseio.com",
+            projectId: "gym-management-system-73e29",
+            storageBucket: "gym-management-system-73e29.appspot.com",
+            messagingSenderId: "1086634605316",
+            appId: "1:1086634605316:web:fa11ab381cf2004d412e51",
+            measurementId: "G-NH19JV2C99"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const fetchRecords = async (reportType) => {
+            const recordsContainer = document.getElementById('recordList');
+            recordsContainer.innerHTML = '';
+
+            try {
+                const querySnapshot = await getDocs(collection(db, reportType));
+
+                if (querySnapshot.empty) {
+                    recordsContainer.innerHTML = '<p>No records found.</p>';
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const recordData = doc.data();
+                    const recordItem = document.createElement('div');
+                    recordItem.classList.add('record-item');
+
+                    switch (reportType) {
+                        case 'active_members':
+                        case 'membership_renewal':
+                        case 'new_signups_cancellations':
+                            recordItem.innerHTML = `
+                                <p><strong>Member Name:</strong> ${recordData.memberName}</p>
+                                <p><strong>Status:</strong> ${recordData.status}</p>
+                            `;
+                            break;
+                        case 'attendance':
+                            recordItem.innerHTML = `
+                                <p><strong>Date:</strong> ${recordData.date}</p>
+                                <p><strong>Member Name:</strong> ${recordData.memberName}</p>
+                            `;
+                            break;
+                        case 'financial':
+                            recordItem.innerHTML = `
+                                <p><strong>Revenue:</strong> $${recordData.revenue}</p>
+                                <p><strong>Expenses:</strong> $${recordData.expenses}</p>
+                            `;
+                            break;
+                        case 'sales':
+                            recordItem.innerHTML = `
+                                <p><strong>Product/Service:</strong> ${recordData.item}</p>
+                                <p><strong>Amount:</strong> $${recordData.amount}</p>
+                            `;
+                            break;
+                        case 'employee':
+                            recordItem.innerHTML = `
+                                <p><strong>Employee Name:</strong> ${recordData.employeeName}</p>
+                                <p><strong>Performance:</strong> ${recordData.performance}</p>
+                            `;
+                            break;
+                        case 'equipment_facility':
+                            recordItem.innerHTML = `
+                                <p><strong>Equipment:</strong> ${recordData.equipment}</p>
+                                <p><strong>Usage:</strong> ${recordData.usage}</p>
+                            `;
+                            break;
+                        case 'customer_feedback':
+                            recordItem.innerHTML = `
+                                <p><strong>Customer Name:</strong> ${recordData.customerName}</p>
+                                <p><strong>Feedback:</strong> ${recordData.feedback}</p>
+                            `;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    recordsContainer.appendChild(recordItem);
+                });
+
+            } catch (error) {
+                console.error('Error fetching records:', error);
+                recordsContainer.innerHTML = '<p>Failed to fetch records. Please try again later.</p>';
+            }
+        };
+
+        const exportCSV = (reportType) => {
+            const rows = [];
+            const table = document.querySelectorAll('.record-item');
+
+            table.forEach(row => {
+                const rowData = [];
+                row.childNodes.forEach(cell => {
+                    if (cell.innerText !== undefined) {
+                        rowData.push(cell.innerText.replace(/(\r\n|\n|\r)/gm, ''));
+                    }
+                });
+                rows.push(rowData.join(','));
+            });
+
+            const csvContent = "data:text/csv;charset=utf-8," + rows.join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `${reportType}_report.csv`);
+            document.body.appendChild(link);
+            link.click();
+        };
+
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            const reportType = document.getElementById('reportType').value;
+            exportCSV(reportType);
+        });
+
+        document.getElementById('reportType').addEventListener('change', (event) => {
+            fetchRecords(event.target.value);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRecords('active_members');
+        });
+    </script>
+</body>
+</html>
